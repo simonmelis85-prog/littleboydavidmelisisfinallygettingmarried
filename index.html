@@ -63,6 +63,10 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        /* Custom styles for the image gallery and modal */
+        .image-clickable {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -81,17 +85,17 @@
         <!-- About the Couple / "Picture Dump" Section -->
         <div class="max-w-6xl mx-auto mb-16 text-center bg-white p-8 rounded-xl shadow-xl">
             <h2 class="text-4xl md:text-6xl font-bold mb-8 text-gray-900">A Look at the Journey So Far</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div id="image-gallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <!-- All 8 images in the requested order and with uniform dimensions -->
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="David and Yvette - Super Like.png" alt="David and Yvette with a super like">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="Yvette Moving In.png" alt="Yvette Moving In">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="Yvette falling down.png" alt="Yvette falling down">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="David dark beer.png" alt="David with a dark beer">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="David on BBQ.png" alt="David on a BBQ">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="David the Dog.png" alt="David and the dog">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David and Yvette - Super Like.png" alt="David and Yvette with a super like">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette Moving In.png" alt="Yvette Moving In">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette falling down.png" alt="Yvette falling down">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David dark beer.png" alt="David with a dark beer">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David on BBQ.png" alt="David on a BBQ">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David the Dog.png" alt="David and the dog">
                 <!-- Placeholders for the two new pictures -->
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="https://placehold.co/400x400/98C1D9/3C467E?text=Photo+7" alt="Placeholder for your new photo">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover" src="https://placehold.co/400x400/CDB4DB/662D91?text=Photo+8" alt="Placeholder for your new photo">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="https://placehold.co/400x400/98C1D9/3C467E?text=Photo+7" alt="Placeholder for your new photo">
+                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="https://placehold.co/400x400/CDB4DB/662D91?text=Photo+8" alt="Placeholder for your new photo">
             </div>
         </div>
 
@@ -120,6 +124,18 @@
             <div id="modal-content" class="text-gray-700 space-y-4">
                 <!-- Content will be injected here -->
             </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
+        <div class="relative max-w-5xl w-full">
+            <button id="close-image-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <img id="modal-image" src="" alt="Full-size gallery image" class="w-full h-auto rounded-lg shadow-xl max-h-[90vh] object-contain">
         </div>
     </div>
 
@@ -220,6 +236,12 @@
             const modalContent = document.getElementById('modal-content');
             const closeModalBtn = document.getElementById('close-modal');
 
+            // Image gallery modal elements
+            const imageModal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const closeImageModalBtn = document.getElementById('close-image-modal');
+            const galleryImages = document.querySelectorAll('.image-clickable');
+
             // Calculate the number of days until the wedding
             const today = new Date();
             const weddingDay = new Date(weddingDate);
@@ -279,6 +301,25 @@
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.classList.add('hidden');
+                }
+            });
+
+            // Image Gallery Logic
+            galleryImages.forEach(image => {
+                image.addEventListener('click', (e) => {
+                    const src = e.target.getAttribute('src');
+                    modalImage.src = src;
+                    imageModal.classList.remove('hidden');
+                });
+            });
+
+            closeImageModalBtn.addEventListener('click', () => {
+                imageModal.classList.add('hidden');
+            });
+
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal) {
+                    imageModal.classList.add('hidden');
                 }
             });
         });
