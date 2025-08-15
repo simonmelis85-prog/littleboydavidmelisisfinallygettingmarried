@@ -21,8 +21,8 @@
             background-size: cover;
             background-position: center;
             position: relative;
-            border: 3-px solid #fff;
-            box-shadow: 0 4-px 6-px rgba(0, 0, 0, 0.1);
+            border: 3px solid #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .door-overlay {
             position: absolute;
@@ -42,7 +42,7 @@
         }
         .door:hover:not(.locked) {
             transform: scale(1.05) rotate(-2deg);
-            box-shadow: 0 15-px 25-px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
         }
         .locked {
             cursor: not-allowed;
@@ -214,9 +214,10 @@
             // Calculate the number of days until the wedding
             const today = new Date();
             const weddingDay = new Date(weddingDate);
-            // This calculation is more reliable for whole days
-            const timeDifference = weddingDay.setHours(0,0,0,0) - today.setHours(0,0,0,0);
-            const daysUntil = Math.round(timeDifference / (1000 * 60 * 60 * 24));
+            // Corrected date calculation to be more robust
+            const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
+            const daysUntil = Math.ceil((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24));
             
             // Loop from 30 down to 1 to create the doors
             for (let i = countdownDays; i >= 1; i--) {
