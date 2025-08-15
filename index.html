@@ -155,8 +155,7 @@
             const countdownDays = 30;
 
             // Content for each day, from Day 30 down to Day 1.
-            // Replace the placeholder content with your own messages, links, and video URLs.
-            // A "physicalGift" property can be used to indicate a real-world gift.
+            // All other days are locked.
             const dailyContent = {
                 '30': {
                     title: "A Message from your Brother!",
@@ -165,67 +164,35 @@
                                 <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/4rXZuggYzIw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                               </div>`
                 },
-                '29': {
-                    title: "A Picture from the Past",
-                    type: 'image',
-                    content: `<img class="w-full rounded-lg" src="https://placehold.co/800x600/E0E7FF/3F51B5?text=Childhood+Photo+Here" alt="Childhood photo">
-                              <p class="mt-4 text-center">A photo of the two of you as kids.</p>`
-                },
-                '28': {
-                    title: "A Sound of Our Past",
-                    type: 'link',
-                    content: `<p class="text-center">Click the link below to listen to a playlist of our favorite songs growing up.</p>
-                              <a href="#" class="block text-center mt-4 text-blue-600 hover:text-blue-800 transition-colors">Go to the Playlist</a>`
-                },
-                '27': {
-                    title: "Remember This?",
-                    type: 'text',
-                    content: `<p class="text-center text-xl font-medium">"Remember that time we tried to build a raft in the garden and it just sank immediately? Classic."</p>
-                              <p class="mt-4 text-center">A note about a funny inside joke.</p>`
-                },
-                '26': {
-                    title: "The Good Old Days",
-                    type: 'text',
-                    content: `<p class="text-center">A link to a digital photo album of your best moments. You can use a service like Google Photos or Flickr. Make sure to replace the link below!</p>
-                              <a href="#" class="block text-center mt-4 text-blue-600 hover:text-blue-800 transition-colors">View the Photo Album</a>`
-                },
-                '25': {
-                    title: "Bro Night Voucher",
-                    type: 'text',
-                    content: `<p class="text-center text-xl font-medium">Voucher for one "Bro Night" with me. Valid for one round of your favorite activity!</p>`
-                },
-                '24': {
-                    title: "A Cherished Memory",
-                    type: 'physicalGift',
-                    content: `<p class="text-center text-xl font-medium">This is a physical gift! Open the gift box labeled 'Day 24' for a framed photo of a cherished memory.</p>`
-                },
-                '23': { title: "Adventure Awaits", content: "<p>A photo of you and your fiancée from one of your travels.</p>" },
-                '22': { title: "New Beginnings", content: "<p>A quote about adventure or new beginnings.</p>" },
-                '21': { title: "That One Time...", content: "<p>A video of you being silly!</p>" },
-                '20': { title: "A Gift for the Bride-to-Be", content: "<p>A special gift for your fiancée.</p>" },
-                '19': { title: "Experience Voucher", content: "<p>A voucher for a new experience to share together.</p>" },
-                '18': { title: "Our Song", content: "<p>A link to a song that reminds me of your relationship.</p>" },
-                '17': { title: "Travel Memento", content: "<p>Physical gift: a personalized souvenir from one of your trips.</p>", type: "physicalGift" },
-                '16': { title: "Marriage Advice", content: "<p>Some hilarious and heartfelt marriage advice from me.</p>" },
-                '15': { title: "Looking Sharp!", content: "<p>A photo of you looking dapper from a past event.</p>" },
-                '14': { title: "A Message from a Friend", content: "<p>A video message from a friend or family member.</p>" },
-                '13': { title: "Husband-in-Training", content: "<p>Physical gift: A funny 'Husband-in-Training' t-shirt.</p>", type: "physicalGift" },
-                '12': { title: "Groom's Pamper Session", content: "<p>A voucher for a groom's pamper session (e.g., a nice shave or haircut).</p>" },
-                '11': { title: "A Quality I Admire", content: "<p>A note about a quality you have that will make you a great husband.</p>" },
-                '10': { title: "Date Night", content: "<p>A gift certificate to your favorite restaurant for a date night.</p>" },
-                '9': { title: "A Favorite Memory", content: "<p>Another cherished memory of ours.</p>" },
-                '8': { title: "A Toast to You", content: "<p>A video of me toasting you and your future wife.</p>" },
-                '7': { title: "Heartfelt Letter", content: "<p>A final piece of heartfelt advice or a letter about my pride in you.</p>" },
-                '6': { title: "For the Big Day", content: "<p>Physical gift: A nice pair of cufflinks for the wedding.</p>", type: "physicalGift" },
-                '5': { title: "The Ring", content: "<p>A photo of his fiancée's engagement ring.</p>" },
-                '4': { title: "No Jitters!", content: "<p>A funny note to ease any pre-wedding jitters.</p>" },
-                '3': { title: "Celebrate!", content: "<p>Physical gift: A nice bottle of champagne for you to share after the wedding.</p>", type: "physicalGift" },
-                '2': { title: "Another Message", content: "<p>A video message from a close friend.</p>" },
-                '1': {
-                    title: "The Final Letter",
-                    type: 'text',
-                    content: `<p class="text-center">A final, deeply personal, and heartfelt letter from me. This is the last door before the big day!</p>`
-                },
+                '29': { content: '' },
+                '28': { content: '' },
+                '27': { content: '' },
+                '26': { content: '' },
+                '25': { content: '' },
+                '24': { content: '' },
+                '23': { content: '' },
+                '22': { content: '' },
+                '21': { content: '' },
+                '20': { content: '' },
+                '19': { content: '' },
+                '18': { content: '' },
+                '17': { content: '' },
+                '16': { content: '' },
+                '15': { content: '' },
+                '14': { content: '' },
+                '13': { content: '' },
+                '12': { content: '' },
+                '11': { content: '' },
+                '10': { content: '' },
+                '9': { content: '' },
+                '8': { content: '' },
+                '7': { content: '' },
+                '6': { content: '' },
+                '5': { content: '' },
+                '4': { content: '' },
+                '3': { content: '' },
+                '2': { content: '' },
+                '1': { content: '' },
             };
 
             // ==========================================================
@@ -247,8 +214,9 @@
             // Calculate the number of days until the wedding
             const today = new Date();
             const weddingDay = new Date(weddingDate);
-            const timeDifference = weddingDay - today;
-            const daysUntil = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            // This calculation is more reliable for whole days
+            const timeDifference = weddingDay.setHours(0,0,0,0) - today.setHours(0,0,0,0);
+            const daysUntil = Math.round(timeDifference / (1000 * 60 * 60 * 24));
             
             // Loop from 30 down to 1 to create the doors
             for (let i = countdownDays; i >= 1; i--) {
@@ -282,7 +250,7 @@
                     if (!door.classList.contains('locked')) {
                         const day = door.id.split('-')[1];
                         const content = dailyContent[day];
-                        if (content) {
+                        if (content && content.content) {
                             modalTitle.textContent = `Day ${day}: ${content.title}`;
                             modalContent.innerHTML = content.content;
                             modal.classList.remove('hidden');
