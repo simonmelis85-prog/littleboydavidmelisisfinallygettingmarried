@@ -214,7 +214,7 @@
             // Calculate the number of days until the wedding
             const today = new Date();
             const weddingDay = new Date(weddingDate);
-            // Corrected date calculation to be more robust
+            // This calculation is more reliable for whole days
             const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
             const daysUntil = Math.ceil((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24));
