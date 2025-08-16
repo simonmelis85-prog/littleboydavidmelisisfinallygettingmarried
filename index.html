@@ -159,7 +159,6 @@
             const dailyContent = {
                 '30': {
                     title: "A Message from your Brother!",
-                    type: 'video',
                     content: `<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 56.25%;">
                                 <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/4rXZuggYzIw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                               </div>`
@@ -238,7 +237,7 @@
                 // Determine if the door should be locked, unlocked, or open
                 if (i > daysUntil) {
                     door.classList.add('locked');
-                } else if (i <= daysUntil) {
+                } else if (i <= daysUntil) { // This now covers all days from the start to the current day
                     door.classList.remove('locked');
                     if (i === daysUntil) {
                         door.querySelector('.door-overlay').textContent = 'Open!';
@@ -249,10 +248,6 @@
                         door.classList.add('open');
                         door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
                     }
-                } else {
-                    door.classList.add('open');
-                    door.classList.remove('locked');
-                    door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
                 }
 
                 door.addEventListener('click', () => {
