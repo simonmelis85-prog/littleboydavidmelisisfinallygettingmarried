@@ -133,7 +133,7 @@
     <div id="image-modal" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
         <div class="relative max-w-5xl w-full">
             <button id="close-image-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -156,7 +156,6 @@
             const countdownDays = 30;
 
             // Content for each day, from Day 30 down to Day 1.
-            // All other days are locked.
             const dailyContent = {
                 '30': {
                     title: "A Message from your Brother!",
@@ -165,7 +164,12 @@
                                 <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/4rXZuggYzIw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                               </div>`
                 },
-                '29': { content: '' },
+                '29': {
+                    title: "Day 29 Surprise",
+                    content: `<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 56.25%;">
+                                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/SQIG69V8CDY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                              </div>`
+                },
                 '28': { content: '' },
                 '27': { content: '' },
                 '26': { content: '' },
@@ -214,9 +218,10 @@
 
             // Corrected date calculation logic
             const today = new Date();
+            const weddingDay = new Date(weddingDate);
             const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            const weddingDayAtMidnight = new Date(weddingDate);
-            const daysUntil = Math.ceil((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24));
+            const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
+            const daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24));
             
             // Loop from 30 down to 1 to create the doors
             for (let i = countdownDays; i >= 1; i--) {
@@ -246,15 +251,13 @@
                 }
 
                 door.addEventListener('click', () => {
-                    // Only open the door if it's not locked
-                    if (!door.classList.contains('locked')) {
-                        const day = door.id.split('-')[1];
-                        const content = dailyContent[day];
-                        if (content && content.content) {
-                            modalTitle.textContent = `Day ${day}: ${content.title}`;
-                            modalContent.innerHTML = content.content;
-                            modal.classList.remove('hidden');
-                        }
+                    // Only open the door if it's not locked and has content
+                    const day = door.id.split('-')[1];
+                    const content = dailyContent[day];
+                    if (!door.classList.contains('locked') && content && content.content) {
+                        modalTitle.textContent = `Day ${day}: ${content.title}`;
+                        modalContent.innerHTML = content.content;
+                        modal.classList.remove('hidden');
                     }
                 });
                 grid.appendChild(door);
