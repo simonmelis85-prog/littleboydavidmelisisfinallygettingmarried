@@ -216,11 +216,17 @@
             const galleryImages = document.querySelectorAll('.image-clickable');
 
             // Corrected date calculation logic
+            const [wy, wm, wd] = weddingDate.split('-').map(Number);
+            const weddingDay = new Date(wy, wm - 1, wd);
             const today = new Date();
-            const weddingDay = new Date(weddingDate);
             const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
-            const daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24)) + 1;
+            
+            const MS_PER_DAY = 1000 * 60 * 60 * 24;
+            let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1;
+
+            if (daysUntil < 1) daysUntil = 1;
+            if (daysUntil > countdownDays) daysUntil = countdownDays;
             
             // Loop from 30 down to 1 to create the doors
             for (let i = countdownDays; i >= 1; i--) {
@@ -228,36 +234,30 @@
                 door.id = `day-${i}`;
                 door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
                 
-                // Add the accessibility attributes
                 door.setAttribute('role', 'button');
                 door.setAttribute('tabindex', '0');
 
-                // Add the overlay for the number
                 const overlay = document.createElement('div');
                 overlay.className = 'door-overlay';
                 overlay.textContent = i;
                 door.appendChild(overlay);
 
-                // Determine if the door should be locked, unlocked, or open
                 if (i > daysUntil) {
                     door.classList.add('locked');
-                } else if (i <= daysUntil) {
+                } else {
                     door.classList.remove('locked');
+                    door.classList.add('open');
                     if (i === daysUntil) {
                         door.querySelector('.door-overlay').textContent = 'Open!';
                         door.querySelector('.door-overlay').classList.add('bg-orange-500', 'text-white');
                         door.style.transform = 'scale(1.05)';
                         door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
-                    } else {
-                        door.classList.add('open');
-                        door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
                     }
                 }
 
                 const content = dailyContent[i];
 
                 door.addEventListener('click', () => {
-                    // Only open the modal if the day is not locked and has content
                     if (!door.classList.contains('locked')) {
                         modalTitle.textContent = `Day ${i}` + (content?.title ? `: ${content.title}` : '');
                         const html = content?.content && content.content.trim() ? content.content : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
@@ -289,7 +289,6 @@
                 }
             });
 
-            // Image Gallery Logic
             galleryImages.forEach(image => {
                 image.addEventListener('click', (e) => {
                     const src = e.target.getAttribute('src');
