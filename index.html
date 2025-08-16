@@ -221,7 +221,7 @@
             const weddingDay = new Date(weddingDate);
             const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
-            const daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24));
+            const daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / (1000 * 60 * 60 * 24)) + 1;
             
             // Loop from 30 down to 1 to create the doors
             for (let i = countdownDays; i >= 1; i--) {
@@ -238,12 +238,17 @@
                 // Determine if the door should be locked, unlocked, or open
                 if (i > daysUntil) {
                     door.classList.add('locked');
-                } else if (i === daysUntil) {
+                } else if (i <= daysUntil) {
                     door.classList.remove('locked');
-                    door.querySelector('.door-overlay').textContent = 'Open!';
-                    door.querySelector('.door-overlay').classList.add('bg-orange-500', 'text-white');
-                    door.style.transform = 'scale(1.05)';
-                    door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
+                    if (i === daysUntil) {
+                        door.querySelector('.door-overlay').textContent = 'Open!';
+                        door.querySelector('.door-overlay').classList.add('bg-orange-500', 'text-white');
+                        door.style.transform = 'scale(1.05)';
+                        door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
+                    } else {
+                        door.classList.add('open');
+                        door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
+                    }
                 } else {
                     door.classList.add('open');
                     door.classList.remove('locked');
