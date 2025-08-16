@@ -227,6 +227,10 @@
                 const door = document.createElement('div');
                 door.id = `day-${i}`;
                 door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
+                
+                // Add the accessibility attributes
+                door.setAttribute('role', 'button');
+                door.setAttribute('tabindex', '0');
 
                 // Add the overlay for the number
                 const overlay = document.createElement('div');
@@ -237,7 +241,7 @@
                 // Determine if the door should be locked, unlocked, or open
                 if (i > daysUntil) {
                     door.classList.add('locked');
-                } else if (i <= daysUntil) { // This now covers all days from the start to the current day
+                } else if (i <= daysUntil) {
                     door.classList.remove('locked');
                     if (i === daysUntil) {
                         door.querySelector('.door-overlay').textContent = 'Open!';
@@ -250,16 +254,24 @@
                     }
                 }
 
+                const content = dailyContent[i];
+
                 door.addEventListener('click', () => {
-                    // Only open the door if it's not locked and has content
-                    const day = door.id.split('-')[1];
-                    const content = dailyContent[day];
-                    if (!door.classList.contains('locked') && content && content.content) {
-                        modalTitle.textContent = `Day ${day}: ${content.title}`;
-                        modalContent.innerHTML = content.content;
+                    // Only open the modal if the day is not locked and has content
+                    if (!door.classList.contains('locked')) {
+                        modalTitle.textContent = `Day ${i}` + (content?.title ? `: ${content.title}` : '');
+                        const html = content?.content && content.content.trim() ? content.content : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
+                        modalContent.innerHTML = html;
                         modal.classList.remove('hidden');
                     }
                 });
+
+                door.addEventListener('keydown', (e) => {
+                    if ((e.key === 'Enter' || e.key === ' ') && !door.classList.contains('locked')) {
+                        door.click();
+                    }
+                });
+
                 grid.appendChild(door);
             }
 
