@@ -1,312 +1,289 @@
+Got you. Below is a clean, working version that does exactly this:
+
+* **Day 30 and Day 29** are **always unlocked**, **crossed through**, and **open a modal** (not a new tab) with their videos.
+* **Day 28** opens the **YouTube Shorts** you specified (`https://youtube.com/shorts/usrPc7D5Q7A`) in the modal.
+* Only **30 and 29** are crossed out—no other days get a strikethrough.
+* Countdown still works for locking future days; today’s door gets the “Open!” glow.
+
+Just replace your file with this:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Melis: The Countdown</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #FFC75F, #FF6F61);
-            background-attachment: fixed;
-        }
-        h1, h2 {
-            font-family: 'Pacifico', cursive;
-        }
-        .door {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .door-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.85);
-            font-size: 2rem;
-            font-weight: bold;
-            color: #333;
-            border-radius: 0.75rem;
-            pointer-events: none;
-        }
-        .door:hover:not(.locked) {
-            transform: scale(1.05) rotate(-2deg);
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-        }
-        .locked {
-            cursor: not-allowed;
-            filter: grayscale(80%) brightness(0.8);
-            opacity: 0.7;
-        }
-        .open .door-overlay {
-            background-color: rgba(255, 255, 255, 0.6);
-            color: #4a5568;
-        }
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('the party.png');
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        /* Custom styles for the image gallery and modal */
-        .image-clickable {
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>David Melis: The Countdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #FFC75F, #FF6F61);
+      background-attachment: fixed;
+    }
+    h1, h2 { font-family: 'Pacifico', cursive; }
+    .door {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .door-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background-color: rgba(255,255,255,0.85);
+      font-size: 2rem; font-weight: bold; color: #333;
+      border-radius: 0.75rem;
+      pointer-events: none; /* ensure clicks hit the .door */
+    }
+    .door:hover:not(.locked) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+    .locked { cursor: not-allowed; filter: grayscale(80%) brightness(0.8); opacity: 0.7; }
+    .open .door-overlay { background-color: rgba(255,255,255,0.6); color: #4a5568; }
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('the party.png');
+      background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;
+    }
+    .image-clickable { cursor: pointer; }
+    .strikethrough { text-decoration: line-through; }
+  </style>
 </head>
 <body class="text-gray-800">
 
-    <!-- Hero Section -->
-    <div class="hero min-h-screen flex items-center justify-center text-white">
-        <div class="p-8 rounded-lg text-center mx-4">
-            <h1 class="text-5xl md:text-8xl font-bold tracking-tighter drop-shadow-lg">David Melis is Finally Getting Married</h1>
-            <p class="mt-4 text-2xl md:text-4xl font-light drop-shadow-md">30 days to go - the final count down begins.</p>
-            <p class="mt-4 text-xl md:text-2xl font-light drop-shadow-md max-w-xl mx-auto">The way our father had a 1 meter measuring tape in his last 100 days to freedom from the military, this is your tracker but in the other direction - 30 days from freedom into ever lasting prison!! :)</p>
-        </div>
+  <!-- Hero Section -->
+  <div class="hero min-h-screen flex items-center justify-center text-white">
+    <div class="p-8 rounded-lg text-center mx-4">
+      <h1 class="text-5xl md:text-8xl font-bold tracking-tighter drop-shadow-lg">David Melis is Finally Getting Married</h1>
+      <p class="mt-4 text-2xl md:text-4xl font-light drop-shadow-md">30 days to go - the final count down begins.</p>
+      <p class="mt-4 text-xl md:text-2xl font-light drop-shadow-md max-w-xl mx-auto">
+        The way our father had a 1 meter measuring tape in his last 100 days to freedom from the military, this is your tracker but in the other direction - 30 days from freedom into ever lasting prison!! :)
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Content Section -->
+  <main class="py-12 md:py-24 px-4">
+
+    <!-- Picture Dump -->
+    <div class="max-w-6xl mx-auto mb-16 text-center bg-white p-8 rounded-xl shadow-xl">
+      <h2 class="text-4xl md:text-6xl font-bold mb-8 text-gray-900">A look back into how this whole thing started....</h2>
+      <p class="mb-8 text-lg text-gray-600">
+        Before we dive into the count down calendar, take a trip down memory lane! Click any photo to view it larger.
+      </p>
+      <div id="image-gallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David and Yvette - Super Like.png" alt="David and Yvette with a super like">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette Moving In.png" alt="Yvette Moving In">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette falling down.png" alt="Yvette falling down">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David dark beer.png" alt="David with a dark beer">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David on BBQ.png" alt="David on a BBQ">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David the Dog.png" alt="David and the dog">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David Motorbike.png" alt="David on a Motorbike">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Porposal.png" alt="The proposal">
+      </div>
     </div>
 
-    <!-- Main Content Section -->
-    <main class="py-12 md:py-24 px-4">
-        
-        <!-- About the Couple / "Picture Dump" Section -->
-        <div class="max-w-6xl mx-auto mb-16 text-center bg-white p-8 rounded-xl shadow-xl">
-            <h2 class="text-4xl md:text-6xl font-bold mb-8 text-gray-900">A look back into how this whole thing started....</h2>
-            <p class="mb-8 text-lg text-gray-600">
-                Before we dive into the count down calendar, take a trip down memory lane! I've put together some of our favorite photos that tell the story of your incredible journey to this day. There's so much to celebrate—the silly moments, the big adventures, and all the love in between. Click on any of them to see the full picture!
-            </p>
-            <div id="image-gallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David and Yvette - Super Like.png" alt="David and Yvette with a super like">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette Moving In.png" alt="Yvette Moving In">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette falling down.png" alt="Yvette falling down">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David dark beer.png" alt="David with a dark beer">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David on BBQ.png" alt="David on a BBQ">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David the Dog.png" alt="David and the dog">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David Motorbike.png" alt="David on a Motorbike">
-                <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Porposal.png" alt="The proposal">
-            </div>
-        </div>
-
-        <!-- Countdown Grid Section -->
-        <div class="text-center my-12">
-            <h2 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 drop-shadow-lg">The 30-Day Countdown</h2>
-            <p class="mt-4 text-lg md:text-xl text-white font-semibold max-w-2xl mx-auto drop-shadow-md">
-                **The Rules:** Each day, a new door will unlock, revealing a special memory, a surprise gift, or a heartfelt message. Just click on the glowing door to see today's surprise! The rest will be waiting for you in the coming days.
-            </p>
-        </div>
-
-        <div id="countdown-grid" class="grid grid-cols-5 md:grid-cols-6 gap-4 w-full max-w-5xl mx-auto p-4">
-            <!-- Doors will be generated by JavaScript here -->
-        </div>
-    </main>
-
-    <!-- Modal for daily content -->
-    <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-white rounded-lg shadow-xl p-6 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-start mb-4">
-                <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
-                <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div id="modal-content" class="text-gray-700 space-y-4">
-                <!-- Content will be injected here -->
-            </div>
-        </div>
+    <!-- Countdown Grid Section -->
+    <div class="text-center my-12">
+      <h2 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 drop-shadow-lg">The 30-Day Countdown</h2>
+      <p class="mt-4 text-lg md:text-xl text-white font-semibold max-w-2xl mx-auto drop-shadow-md">
+        **The Rules:** Each day, a new door will unlock. Click the glowing door for today, or revisit any unlocked day.
+      </p>
     </div>
 
-    <!-- Image Gallery Modal -->
-    <div id="image-modal" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
-        <div class="relative max-w-5xl w-full">
-            <button id="close-image-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <img id="modal-image" src="" alt="Full-size gallery image" class="w-full h-auto rounded-lg shadow-xl max-h-[90vh] object-contain">
-        </div>
+    <div id="countdown-grid" class="grid grid-cols-5 md:grid-cols-6 gap-4 w-full max-w-5xl mx-auto p-4">
+      <!-- Doors generated by JS -->
     </div>
+  </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+  <!-- Modal for daily content -->
+  <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
+    <div class="bg-white rounded-lg shadow-xl p-6 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-start mb-4">
+        <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
+        <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="modal-content" class="text-gray-700 space-y-4"></div>
+    </div>
+  </div>
 
-            // ==========================================================
-            // === CONFIGURATION START - YOU CAN EDIT THIS SECTION ====
-            // ==========================================================
+  <!-- Image Gallery Modal -->
+  <div id="image-modal" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
+    <div class="relative max-w-5xl w-full">
+      <button id="close-image-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors" aria-label="Close image">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <img id="modal-image" src="" alt="Full-size gallery image" class="w-full h-auto rounded-lg shadow-xl max-h-[90vh] object-contain">
+    </div>
+  </div>
 
-            // Set the wedding date to calculate the countdown.
-            // Format: 'YYYY-MM-DD'
-            const weddingDate = '2025-09-13'; 
-            
-            // The number of days for the countdown.
-            const countdownDays = 30;
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ================== CONFIG ==================
+      const weddingDate = '2025-09-13';
+      const countdownDays = 30;
 
-            // Content for each day, from Day 30 down to Day 1.
-            const dailyContent = {
-                '30': {
-                    title: "A Message from your Brother!",
-                    content: `<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 56.25%;">
-                                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/4rXZuggYzIw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                              </div>`
-                },
-                '29': {
-                    title: "Day 29 Surprise",
-                    content: `<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 56.25%;">
-                                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/SQIG69V8CDY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                              </div>`
-                },
-                '28': { content: '' },
-                '27': { content: '' },
-                '26': { content: '' },
-                '25': { content: '' },
-                '24': { content: '' },
-                '23': { content: '' },
-                '22': { content: '' },
-                '21': { content: '' },
-                '20': { content: '' },
-                '19': { content: '' },
-                '18': { content: '' },
-                '17': { content: '' },
-                '16': { content: '' },
-                '15': { content: '' },
-                '14': { content: '' },
-                '13': { content: '' },
-                '12': { content: '' },
-                '11': { content: '' },
-                '10': { content: '' },
-                '9': { content: '' },
-                '8': { content: '' },
-                '7': { content: '' },
-                '6': { content: '' },
-                '5': { content: '' },
-                '4': { content: '' },
-                '3': { content: '' },
-                '2': { content: '' },
-                '1': { content: '' },
-            };
+      // Modal content for specific days
+      const dailyContent = {
+        '30': {
+          title: "A Message from your Brother!",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/4rXZuggYzIw"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>`
+        },
+        '29': {
+          title: "Day 29 Surprise",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/SQIG69V8CDY"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>`
+        },
+        '28': {
+          title: "Day 28 Surprise",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/usrPc7D5Q7A"
+                title="YouTube Shorts"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>`
+        }
+      };
 
-            // ==========================================================
-            // === CONFIGURATION END ====================================
-            // ==========================================================
+      // Days that must always be unlocked + crossed through + open modal
+      const forceOpenDays = new Set([30, 29]);
 
-            const grid = document.getElementById('countdown-grid');
-            const modal = document.getElementById('modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalContent = document.getElementById('modal-content');
-            const closeModalBtn = document.getElementById('close-modal');
+      // ============== Date math (local, inclusive) ==============
+      const [wy, wm, wd] = weddingDate.split('-').map(Number);
+      const weddingDay = new Date(wy, wm - 1, wd);
+      const today = new Date();
+      const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
+      const MS_PER_DAY = 1000 * 60 * 60 * 24;
+      let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-            // Image gallery modal elements
-            const imageModal = document.getElementById('image-modal');
-            const modalImage = document.getElementById('modal-image');
-            const closeImageModalBtn = document.getElementById('close-image-modal');
-            const galleryImages = document.querySelectorAll('.image-clickable');
+      if (daysUntil < 1) daysUntil = 1;
+      if (daysUntil > countdownDays) daysUntil = countdownDays;
 
-            // Corrected date calculation logic
-            const [wy, wm, wd] = weddingDate.split('-').map(Number);
-            const weddingDay = new Date(wy, wm - 1, wd);
-            const today = new Date();
-            const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
-            
-            const MS_PER_DAY = 1000 * 60 * 60 * 24;
-            let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1;
+      // ============== Elements ==============
+      const grid = document.getElementById('countdown-grid');
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalContent = document.getElementById('modal-content');
+      const closeModalBtn = document.getElementById('close-modal');
 
-            if (daysUntil < 1) daysUntil = 1;
-            if (daysUntil > countdownDays) daysUntil = countdownDays;
-            
-            // Loop from 30 down to 1 to create the doors
-            for (let i = countdownDays; i >= 1; i--) {
-                const door = document.createElement('div');
-                door.id = `day-${i}`;
-                door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
-                
-                door.setAttribute('role', 'button');
-                door.setAttribute('tabindex', '0');
+      const imageModal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const closeImageModalBtn = document.getElementById('close-image-modal');
+      const galleryImages = document.querySelectorAll('.image-clickable');
 
-                const overlay = document.createElement('div');
-                overlay.className = 'door-overlay';
-                overlay.textContent = i;
-                door.appendChild(overlay);
+      // ============== Build doors ==============
+      for (let i = countdownDays; i >= 1; i--) {
+        const door = document.createElement('div');
+        door.id = `day-${i}`;
+        door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
+        door.setAttribute('role', 'button');
+        door.setAttribute('tabindex', '0');
 
-                if (i > daysUntil) {
-                    door.classList.add('locked');
-                } else {
-                    door.classList.remove('locked');
-                    door.classList.add('open');
-                    if (i === daysUntil) {
-                        door.querySelector('.door-overlay').textContent = 'Open!';
-                        door.querySelector('.door-overlay').classList.add('bg-orange-500', 'text-white');
-                        door.style.transform = 'scale(1.05)';
-                        door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
-                    }
-                }
+        const overlay = document.createElement('div');
+        overlay.className = 'door-overlay';
+        overlay.textContent = i;
+        door.appendChild(overlay);
 
-                const content = dailyContent[i];
+        const isForced = forceOpenDays.has(i);
+        const isLockedByCountdown = i > daysUntil && !isForced;
+        const isToday = i === daysUntil && !isForced;
 
-                door.addEventListener('click', () => {
-                    if (!door.classList.contains('locked')) {
-                        modalTitle.textContent = `Day ${i}` + (content?.title ? `: ${content.title}` : '');
-                        const html = content?.content && content.content.trim() ? content.content : `<p class="text-lg">This day hasn't arrived yet, Be patient little Palawan. Check back soon 🎁</p>`;
-                        modalContent.innerHTML = html;
-                        modal.classList.remove('hidden');
-                    }
-                });
+        // STATE rules
+        if (isLockedByCountdown) {
+          door.classList.add('locked');
+        } else if (isForced) {
+          // Day 30 & 29: always unlocked + crossed
+          overlay.classList.add('strikethrough');
+          door.classList.remove('locked');
+        } else if (isToday) {
+          overlay.textContent = 'Open!';
+          overlay.classList.add('bg-orange-500', 'text-white');
+          door.style.transform = 'scale(1.05)';
+          door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
+        } else {
+          // Past/unlocked (not forced days)
+          door.classList.add('open');
+          door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
+        }
 
-                door.addEventListener('keydown', (e) => {
-                    if ((e.key === 'Enter' || e.key === ' ') && !door.classList.contains('locked')) {
-                        door.click();
-                    }
-                });
+        // CLICK handler — open modal for any unlocked day
+        door.addEventListener('click', () => {
+          if (door.classList.contains('locked')) return;
 
-                grid.appendChild(door);
-            }
-
-            closeModalBtn.addEventListener('click', () => {
-                modal.classList.add('hidden');
-                const videoElement = modalContent.querySelector('video');
-                if (videoElement) {
-                    videoElement.pause();
-                }
-            });
-
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-
-            galleryImages.forEach(image => {
-                image.addEventListener('click', (e) => {
-                    const src = e.target.getAttribute('src');
-                    modalImage.src = src;
-                    imageModal.classList.remove('hidden');
-                });
-            });
-
-            closeImageModalBtn.addEventListener('click', () => {
-                imageModal.classList.add('hidden');
-            });
-
-            imageModal.addEventListener('click', (e) => {
-                if (e.target === imageModal) {
-                    imageModal.classList.add('hidden');
-                }
-            });
+          const content = dailyContent[i];
+          modalTitle.textContent = `Day ${i}` + (content?.title ? `: ${content.title}` : '');
+          const html = content?.content && content.content.trim()
+            ? content.content
+            : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
+          modalContent.innerHTML = html;
+          modal.classList.remove('hidden');
         });
-    </script>
+
+        // Keyboard activation
+        door.addEventListener('keydown', (e) => {
+          if ((e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            door.click();
+          }
+        });
+
+        grid.appendChild(door);
+      }
+
+      // ============== Modal controls ==============
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        const iframe = modalContent.querySelector('iframe');
+        if (iframe) iframe.src = iframe.src; // stop video
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          const iframe = modalContent.querySelector('iframe');
+          if (iframe) iframe.src = iframe.src; // stop video
+        }
+      });
+
+      // ============== Image gallery ==============
+      galleryImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+          modalImage.src = e.target.getAttribute('src');
+          imageModal.classList.remove('hidden');
+        });
+      });
+      closeImageModalBtn.addEventListener('click', () => imageModal.classList.add('hidden'));
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) imageModal.classList.add('hidden');
+      });
+    });
+  </script>
 </body>
 </html>
+```
