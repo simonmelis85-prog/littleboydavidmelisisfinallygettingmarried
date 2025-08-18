@@ -117,11 +117,22 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // ================== PATHS FOR NEW FILES ==================
+      // If your files are inside a folder, e.g. /assets/, set PATH_PREFIX = 'assets/'
+      const PATH_PREFIX = ''; // e.g. 'assets/' if needed
+
+      // Filenames with spaces/commas will be URL-encoded
+      const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
+      const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
+
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
-      // Modal content for specific days
+      // Days to always unlock + strikethrough + modal
+      const forceOpenDays = new Set([30, 29, 28]);
+
+      // Modal content per day
       const dailyContent = {
         '30': {
           title: "A Message from your Brother!",
@@ -158,11 +169,18 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
             </div>`
+        },
+        '27': {
+          title: "Cinema Voucher — First Movie as a Married Couple 🎬🥂",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY27_IMAGE}" alt="Cinema voucher preview" class="w-full h-auto rounded-lg shadow" />
+              <a href="${DAY27_PDF}" download class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-amber-500 text-white font-semibold hover:bg-amber-600 transition-colors">
+                Download Voucher (PDF)
+              </a>
+            </div>`
         }
       };
-
-      // Days that must always be unlocked + crossed through + open modal
-      const forceOpenDays = new Set([30, 29]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wd] = weddingDate.split('-').map(Number);
@@ -209,7 +227,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // Day 30 & 29: always unlocked + crossed
+          // 30, 29, 28: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
@@ -276,4 +294,3 @@
   </script>
 </body>
 </html>
-```
