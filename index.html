@@ -125,13 +125,9 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // ================== PATHS FOR NEW FILES ==================
-      // If your files are inside a folder, e.g. /assets/, set PATH_PREFIX = 'assets/'
       const PATH_PREFIX = ''; // e.g. 'assets/' if needed
-
-      // URL-encode filenames with spaces/commas
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
-      const DAY26_IMAGE = PATH_PREFIX + encodeURIComponent('Flower Delivery.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
@@ -149,7 +145,7 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // OPTIONAL OVERRIDE for "today is Day 26" (set to null/0 to disable)
+      // OPTIONAL OVERRIDE for "today is Day 26"
       const OVERRIDE_TODAY = 26;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
@@ -283,7 +279,7 @@
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
 
-          // If it's Day 26 (quiz), wire the handler to reveal the image on correct answer
+          // If it's Day 26 (quiz), wire the handler to reveal the YouTube Short on correct answer
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
@@ -293,10 +289,14 @@
               const val = (input.value || '').trim().toLowerCase();
               if (val === 'radelkamp') {
                 modalTitle.textContent = '🎉 Unlocked!';
-                // Replace message with the Flower Delivery image
                 modalContent.innerHTML = `
-                  <div class="unlock-anim">
-                    <img src="${DAY26_IMAGE}" alt="Flower Delivery" class="w-full h-auto rounded-lg shadow" />
+                  <div class="relative w-full overflow-hidden rounded-lg unlock-anim" style="padding-top:56.25%;">
+                    <iframe class="absolute inset-0 w-full h-full"
+                      src="https://www.youtube.com/embed/PUYMJDxqkik"
+                      title="YouTube Shorts"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
                   </div>
                 `;
               } else {
