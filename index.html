@@ -13,121 +13,324 @@
       background-attachment: fixed;
     }
     h1, h2 { font-family: 'Pacifico', cursive; }
-    .door { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; background-size: cover; background-position: center; position: relative; border: 3px solid #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
-    .door-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: rgba(255,255,255,0.85); font-size: 2rem; font-weight: bold; color: #333; border-radius: 0.75rem; pointer-events: none;}
-    .door:hover:not(.locked) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2);}
-    .locked { cursor: not-allowed; filter: grayscale(80%) brightness(0.8); opacity: 0.7;}
-    .open .door-overlay { background-color: rgba(255,255,255,0.6); color: #4a5568;}
-    .hero { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('the party.png'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;}
-    .image-clickable { cursor: pointer;}
-    .strikethrough { text-decoration: line-through;}
+    .door {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .door-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background-color: rgba(255,255,255,0.85);
+      font-size: 2rem; font-weight: bold; color: #333;
+      border-radius: 0.75rem;
+      pointer-events: none; /* ensure clicks hit the .door */
+    }
+    .door:hover:not(.locked) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+    .locked { cursor: not-allowed; filter: grayscale(80%) brightness(0.8); opacity: 0.7; }
+    .open .door-overlay { background-color: rgba(255,255,255,0.6); color: #4a5568; }
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('the party.png');
+      background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;
+    }
+    .image-clickable { cursor: pointer; }
+    .strikethrough { text-decoration: line-through; }
+
+    /* Tiny “unlock” animation */
+    .unlock-anim { animation: pop 350ms ease-out; }
+    @keyframes pop {
+      0% { transform: scale(0.96); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body class="text-gray-800">
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <div class="hero min-h-screen flex items-center justify-center text-white">
-    <div class="p-8 text-center">
-      <h1 class="text-5xl md:text-8xl font-bold">David Melis is Finally Getting Married</h1>
-      <p class="mt-4 text-2xl md:text-4xl font-light">30 days to go - the final countdown begins.</p>
+    <div class="p-8 rounded-lg text-center mx-4">
+      <h1 class="text-5xl md:text-8xl font-bold tracking-tighter drop-shadow-lg">David Melis is Finally Getting Married</h1>
+      <p class="mt-4 text-2xl md:text-4xl font-light drop-shadow-md">30 days to go - the final count down begins.</p>
+      <p class="mt-4 text-xl md:text-2xl font-light drop-shadow-md max-w-xl mx-auto">
+        The way our father had a 1 meter measuring tape in his last 100 days to freedom from the military, this is your tracker but in the other direction - 30 days from freedom into ever lasting prison!! :)
+      </p>
     </div>
   </div>
 
-  <!-- Countdown -->
-  <main class="py-12 px-4">
-    <div class="text-center mb-8">
-      <h2 class="text-4xl md:text-6xl font-bold">The 30-Day Countdown</h2>
-      <p class="mt-4 text-lg md:text-xl text-white font-semibold">Each day, a door unlocks with a surprise.</p>
+  <!-- Main Content Section -->
+  <main class="py-12 md:py-24 px-4">
+
+    <!-- Picture Dump -->
+    <div class="max-w-6xl mx-auto mb-16 text-center bg-white p-8 rounded-xl shadow-xl">
+      <h2 class="text-4xl md:text-6xl font-bold mb-8 text-gray-900">A look back into how this whole thing started....</h2>
+      <p class="mb-8 text-lg text-gray-600">
+        Before we dive into the count down calendar, take a trip down memory lane! Click any photo to view it larger.
+      </p>
+      <div id="image-gallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David and Yvette - Super Like.png" alt="David and Yvette with a super like">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette Moving In.png" alt="Yvette Moving In">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Yvette falling down.png" alt="Yvette falling down">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David dark beer.png" alt="David with a dark beer">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David on BBQ.png" alt="David on a BBQ">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David the Dog.png" alt="David and the dog">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="David Motorbike.png" alt="David on a Motorbike">
+        <img class="rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 w-full h-64 object-cover image-clickable" src="Porposal.png" alt="The proposal">
+      </div>
     </div>
-    <div id="countdown-grid" class="grid grid-cols-5 md:grid-cols-6 gap-4 max-w-5xl mx-auto"></div>
+
+    <!-- Countdown Grid Section -->
+    <div class="text-center my-12">
+      <h2 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 drop-shadow-lg">The 30-Day Countdown</h2>
+      <p class="mt-4 text-lg md:text-xl text-white font-semibold max-w-2xl mx-auto drop-shadow-md">
+        **The Rules:** Each day, a new door will unlock. Click the glowing door for today, or revisit any unlocked day.
+      </p>
+    </div>
+
+    <div id="countdown-grid" class="grid grid-cols-5 md:grid-cols-6 gap-4 w-full max-w-5xl mx-auto p-4">
+      <!-- Doors generated by JS -->
+    </div>
   </main>
 
-  <!-- Modal -->
+  <!-- Modal for daily content -->
   <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
     <div class="bg-white rounded-lg shadow-xl p-6 md:p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start mb-4">
-        <h2 id="modal-title" class="text-2xl md:text-3xl font-bold"></h2>
-        <button id="close-modal" class="text-gray-400 hover:text-gray-600">
-          ✕
+        <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-gray-900"></h2>
+        <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
       <div id="modal-content" class="text-gray-700 space-y-4"></div>
     </div>
   </div>
 
+  <!-- Image Gallery Modal -->
+  <div id="image-modal" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 hidden p-4">
+    <div class="relative max-w-5xl w-full">
+      <button id="close-image-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors" aria-label="Close image">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <img id="modal-image" src="" alt="Full-size gallery image" class="w-full h-auto rounded-lg shadow-xl max-h-[90vh] object-contain">
+    </div>
+  </div>
+
   <script>
-    const countdownDays = 30;
-    const today = 26; // adjust daily
-    const alwaysUnlocked = [28,29,30,27]; // crossed-off + accessible
-    const dailyContent = {
-      27: {
-        title: "Cinema Voucher",
-        content: `
-          <p>Your cinema voucher for your first movie as a married couple! 🥂</p>
-          <a href="voucher.pdf" class="inline-block bg-yellow-500 px-4 py-2 rounded-lg text-white mt-4">Download Voucher</a>
-        `
-      },
-      28: {
-        title: "Funny YouTube Short",
-        content: `<iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEOID" frameborder="0" allowfullscreen></iframe>`
-      },
-      26: {
-        title: "Special Quiz – Unlock Today's Surprise",
-        content: `
-          <p><strong>Wer waren die 2 berühmtesten Rennradfahrer in deinem Kinderzimmer</strong> – “LA Raselmoef” und “NY (placeholder)”?<br>
-          Gib den richtigen Nachnamen ein, um das Geschenk zu entsperren.</p>
-          <input type="text" id="quiz-answer" placeholder="Antwort hier eingeben" class="border px-3 py-2 rounded w-full mb-3"/>
-          <button id="unlock-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Unlock</button>
-          <div id="quiz-feedback" class="mt-3 text-red-600 font-semibold hidden"></div>
-        `
+    document.addEventListener('DOMContentLoaded', () => {
+      // ================== PATHS FOR NEW FILES ==================
+      // If your files are inside a folder, e.g. /assets/, set PATH_PREFIX = 'assets/'
+      const PATH_PREFIX = ''; // e.g. 'assets/' if needed
+
+      // Filenames with spaces/commas will be URL-encoded
+      const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
+      const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
+
+      // ================== CONFIG ==================
+      const weddingDate = '2025-09-13';
+      const countdownDays = 30;
+
+      // Days to always unlock + strikethrough + modal (now includes 27)
+      const forceOpenDays = new Set([30, 29, 28, 27]);
+
+      // ============== Date math (local, inclusive) ==============
+      const [wy, wm, wday] = weddingDate.split('-').map(Number);
+      const weddingDay = new Date(wy, wm - 1, wday);
+      const today = new Date();
+      const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const weddingDayAtMidnight = new Date(weddingDay.getFullYear(), weddingDay.getMonth(), weddingDay.getDate());
+      const MS_PER_DAY = 1000 * 60 * 60 * 24;
+      let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
+
+      // OPTIONAL OVERRIDE for "today is Day 26"
+      const OVERRIDE_TODAY = 26;
+      if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
+
+      // clamp to [1..countdownDays]
+      if (daysUntil < 1) daysUntil = 1;
+      if (daysUntil > countdownDays) daysUntil = countdownDays;
+
+      // ================== CONTENT ==================
+      const dailyContent = {
+        '30': {
+          title: "A Message from your Brother!",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/4rXZuggYzIw"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>`
+        },
+        '29': {
+          title: "Day 29 Surprise",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/SQIG69V8CDY"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>`
+        },
+        '28': {
+          title: "Day 28 Surprise",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/usrPc7D5Q7A"
+                title="YouTube Shorts"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>`
+        },
+        '27': {
+          title: "Cinema Voucher — First Movie as a Married Couple 🎬🥂",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY27_IMAGE}" alt="Cinema voucher preview" class="w-full h-auto rounded-lg shadow" />
+              <a href="${DAY27_PDF}" download class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-amber-500 text-white font-semibold hover:bg-amber-600 transition-colors">
+                Download Voucher (PDF)
+              </a>
+            </div>`
+        },
+        '26': {
+          title: "🔒 Special Quiz — Unlock Today's Surprise",
+          content: `
+            <div class="space-y-4">
+              <p class="text-lg">
+                Wer waren die <strong>2 berühmtesten Rennradfahrer</strong> in deinem Kinderzimmer – “LA Raselmoef” und “NY (placeholder)”?<br/>
+                <span class="text-gray-600">Gib den richtigen Nachnamen ein, um das Geschenk zu entsperren.</span>
+              </p>
+              <div class="flex items-center gap-2">
+                <input id="quiz-answer" type="text" placeholder="Antwort hier eingeben"
+                  class="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+                <button id="quiz-submit" class="px-4 py-2 rounded-lg bg-amber-500 text-white font-semibold hover:bg-amber-600">Unlock</button>
+              </div>
+              <p id="quiz-feedback" class="text-sm text-red-600 hidden">Leider falsch – versuch’s nochmal!</p>
+            </div>
+          `
+        }
+      };
+
+      // ============== Elements ==============
+      const grid = document.getElementById('countdown-grid');
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalContent = document.getElementById('modal-content');
+      const closeModalBtn = document.getElementById('close-modal');
+
+      // ============== Build doors ==============
+      for (let i = countdownDays; i >= 1; i--) {
+        const door = document.createElement('div');
+        door.id = `day-${i}`;
+        door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
+        door.setAttribute('role', 'button');
+        door.setAttribute('tabindex', '0');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'door-overlay';
+        overlay.textContent = i;
+        door.appendChild(overlay);
+
+        const isForced = forceOpenDays.has(i);
+        const isLockedByCountdown = i > daysUntil && !isForced;
+        const isToday = i === daysUntil && !isForced;
+
+        // STATE rules
+        if (isLockedByCountdown) {
+          door.classList.add('locked');
+        } else if (isForced) {
+          // 30, 29, 28, 27: always unlocked + crossed
+          overlay.classList.add('strikethrough');
+          door.classList.remove('locked');
+        } else if (isToday) {
+          overlay.textContent = 'Open!';
+          overlay.classList.add('bg-orange-500', 'text-white');
+          door.style.transform = 'scale(1.05)';
+          door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
+        } else {
+          // Past/unlocked (not forced days)
+          door.classList.add('open');
+          door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
+        }
+
+        // CLICK handler — open modal for any unlocked day
+        door.addEventListener('click', () => {
+          if (door.classList.contains('locked')) return;
+
+          const content = dailyContent[i];
+          modalTitle.textContent = `Day ${i}` + (content?.title ? `: ${content.title}` : '');
+          const html = content?.content && content.content.trim()
+            ? content.content
+            : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
+          modalContent.innerHTML = html;
+          modal.classList.remove('hidden');
+
+          // If it's Day 26 (quiz), wire the handler
+          if (i === 26) {
+            const input = document.getElementById('quiz-answer');
+            const btn = document.getElementById('quiz-submit');
+            const feedback = document.getElementById('quiz-feedback');
+
+            const tryUnlock = () => {
+              const val = (input.value || '').trim().toLowerCase();
+              if (val === 'radelkamp') {
+                // Replace content with the unlocked message
+                modalTitle.textContent = '🎉 Unlocked!';
+                modalContent.innerHTML = `
+                  <div class="space-y-4 unlock-anim">
+                    <p class="text-xl font-semibold">Hey busy boy - today we got you covered!!</p>
+                    <p class="text-lg">Flowers in your name will be delivered to your future wife saying: <em>I cannot wait to marry you.</em></p>
+                    <p class="text-lg">She is going to love it :)</p>
+                  </div>
+                `;
+              } else {
+                feedback.classList.remove('hidden');
+              }
+            };
+
+            btn.addEventListener('click', tryUnlock);
+            input.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') tryUnlock();
+            });
+          }
+        });
+
+        // Keyboard activation
+        door.addEventListener('keydown', (e) => {
+          if ((e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            door.click();
+          }
+        });
+
+        grid.appendChild(door);
       }
-    };
 
-    const grid = document.getElementById("countdown-grid");
-    for (let day = countdownDays; day >= 1; day--) {
-      const door = document.createElement("div");
-      door.className = "door rounded-xl aspect-square flex items-center justify-center bg-gradient-to-br from-yellow-200 to-yellow-400";
-      const overlay = document.createElement("div");
-      overlay.className = "door-overlay rounded-xl";
-      overlay.textContent = day;
-      if (alwaysUnlocked.includes(day)) {
-        door.classList.add("open");
-        overlay.classList.add("strikethrough");
-      } else if (day > today) {
-        door.classList.add("locked");
-      } else {
-        door.classList.add("open");
-      }
-      door.appendChild(overlay);
-      grid.appendChild(door);
-
-      door.addEventListener("click", () => {
-        if (door.classList.contains("locked")) return;
-        const content = dailyContent[day];
-        document.getElementById("modal-title").textContent = `Day ${day}` + (content?.title ? `: ${content.title}` : "");
-        document.getElementById("modal-content").innerHTML = content?.content || "<p>No content yet.</p>";
-        document.getElementById("modal").classList.remove("hidden");
-
-        if(day === 26){
-          document.getElementById("unlock-btn").addEventListener("click", () => {
-            const val = document.getElementById("quiz-answer").value.trim().toLowerCase();
-            if(val === "radelkamp"){
-              document.getElementById("modal-content").innerHTML = `
-                <p>Hey busy boy - today we got you covered!!<br>
-                Flowers in your name will be delivered to your future wife saying:<br>
-                <em>"I cannot wait to marry you."</em><br>
-                She is going to love it :)</p>`;
-            } else {
-              document.getElementById("quiz-feedback").textContent = "Falsche Antwort, versuch es nochmal!";
-              document.getElementById("quiz-feedback").classList.remove("hidden");
-            }
-          });
+      // ============== Modal controls ==============
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        const iframe = modalContent.querySelector('iframe');
+        if (iframe) iframe.src = iframe.src; // stop video
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          const iframe = modalContent.querySelector('iframe');
+          if (iframe) iframe.src = iframe.src; // stop video
         }
       });
-    }
-
-    document.getElementById("close-modal").addEventListener("click", () => {
-      document.getElementById("modal").classList.add("hidden");
     });
   </script>
 </body>
