@@ -128,15 +128,16 @@
       // If your files are inside a folder, e.g. /assets/, set PATH_PREFIX = 'assets/'
       const PATH_PREFIX = ''; // e.g. 'assets/' if needed
 
-      // Filenames with spaces/commas will be URL-encoded
+      // URL-encode filenames with spaces/commas
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
+      const DAY26_IMAGE = PATH_PREFIX + encodeURIComponent('Flower Delivery.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
-      // Days to always unlock + strikethrough + modal (now includes 27)
+      // Days to always unlock + strikethrough + modal
       const forceOpenDays = new Set([30, 29, 28, 27]);
 
       // ============== Date math (local, inclusive) ==============
@@ -148,7 +149,7 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // OPTIONAL OVERRIDE for "today is Day 26"
+      // OPTIONAL OVERRIDE for "today is Day 26" (set to null/0 to disable)
       const OVERRIDE_TODAY = 26;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
@@ -230,6 +231,11 @@
       const modalContent = document.getElementById('modal-content');
       const closeModalBtn = document.getElementById('close-modal');
 
+      const imageModal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const closeImageModalBtn = document.getElementById('close-image-modal');
+      const galleryImages = document.querySelectorAll('.image-clickable');
+
       // ============== Build doors ==============
       for (let i = countdownDays; i >= 1; i--) {
         const door = document.createElement('div');
@@ -277,7 +283,7 @@
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
 
-          // If it's Day 26 (quiz), wire the handler
+          // If it's Day 26 (quiz), wire the handler to reveal the image on correct answer
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
@@ -286,13 +292,11 @@
             const tryUnlock = () => {
               const val = (input.value || '').trim().toLowerCase();
               if (val === 'radelkamp') {
-                // Replace content with the unlocked message
                 modalTitle.textContent = '🎉 Unlocked!';
+                // Replace message with the Flower Delivery image
                 modalContent.innerHTML = `
-                  <div class="space-y-4 unlock-anim">
-                    <p class="text-xl font-semibold">Hey busy boy - today we got you covered!!</p>
-                    <p class="text-lg">Flowers in your name will be delivered to your future wife saying: <em>I cannot wait to marry you.</em></p>
-                    <p class="text-lg">She is going to love it :)</p>
+                  <div class="unlock-anim">
+                    <img src="${DAY26_IMAGE}" alt="Flower Delivery" class="w-full h-auto rounded-lg shadow" />
                   </div>
                 `;
               } else {
@@ -330,6 +334,18 @@
           const iframe = modalContent.querySelector('iframe');
           if (iframe) iframe.src = iframe.src; // stop video
         }
+      });
+
+      // ============== Image gallery ==============
+      galleryImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+          modalImage.src = e.target.getAttribute('src');
+          imageModal.classList.remove('hidden');
+        });
+      });
+      closeImageModalBtn.addEventListener('click', () => imageModal.classList.add('hidden'));
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) imageModal.classList.add('hidden');
       });
     });
   </script>
