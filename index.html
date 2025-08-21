@@ -128,14 +128,15 @@
       const PATH_PREFIX = ''; // e.g. 'assets/' if needed
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
+      const DAY24_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
       // Days to always unlock + strikethrough + modal
-      // (Now includes 26 so it's crossed off but still clickable)
-      const forceOpenDays = new Set([30, 29, 28, 27, 26]);
+      // Now also includes Day 25 (crossed but clickable)
+      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wday] = weddingDate.split('-').map(Number);
@@ -146,8 +147,8 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // OPTIONAL OVERRIDE — today is Day 25
-      const OVERRIDE_TODAY = 25;
+      // OPTIONAL OVERRIDE — today is Day 24
+      const OVERRIDE_TODAY = 24;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
       // clamp to [1..countdownDays]
@@ -202,7 +203,6 @@
               </a>
             </div>`
         },
-        // Keep Day 26 quiz content; it's crossed-off but still clickable.
         '26': {
           title: "🔒 Special Quiz — Unlock Today's Surprise",
           content: `
@@ -220,7 +220,6 @@
             </div>
           `
         },
-        // NEW: Day 25 video (future mother-in-law)
         '25': {
           title: "A Message from Your Future Mother-in-law 💐",
           content: `
@@ -231,6 +230,13 @@
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
+            </div>`
+        },
+        '24': {
+          title: "Day 24 Surprise",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY24_IMAGE}" alt="Day 24 surprise" class="w-full h-auto rounded-lg shadow" />
             </div>`
         }
       };
@@ -268,7 +274,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // 30, 29, 28, 27, 26: always unlocked + crossed
+          // 30, 29, 28, 27, 26, 25: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
@@ -294,7 +300,7 @@
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
 
-          // If it's Day 26 (quiz), keep the quiz behavior
+          // Day 26 quiz behavior (unchanged)
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
