@@ -124,19 +124,18 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ================== PATHS FOR FILES ==================
+      // ================== PATHS FOR FILES (if needed later) ==================
       const PATH_PREFIX = ''; // e.g. 'assets/' if needed
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
       const DAY24_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');
-      const DAY23_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 22, 2025, 12_05_08 PM.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
       // Days to always unlock + strikethrough + modal
-      // Now includes Day 24 as well (crossed but clickable)
+      // Includes 24–30 (crossed but clickable)
       const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24]);
 
       // ============== Date math (local, inclusive) ==============
@@ -148,7 +147,7 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // OPTIONAL OVERRIDE — today is Day 23
+      // TODAY is Day 23
       const OVERRIDE_TODAY = 23;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
@@ -243,8 +242,13 @@
         '23': {
           title: "Day 23 Surprise",
           content: `
-            <div class="space-y-4">
-              <img src="${DAY23_IMAGE}" alt="Day 23 surprise" class="w-full h-auto rounded-lg shadow" />
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/JKi7Jwhj4kc"
+                title="YouTube video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
             </div>`
         }
       };
