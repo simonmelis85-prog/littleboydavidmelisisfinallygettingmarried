@@ -124,19 +124,20 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ================== PATHS FOR FILES (if needed later) ==================
+      // ================== PATHS FOR FILES ==================
       const PATH_PREFIX = ''; // e.g. 'assets/' if needed
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
       const DAY24_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');
+      const DAY22_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
       // Days to always unlock + strikethrough + modal
-      // Includes 24–30 (crossed but clickable)
-      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24]);
+      // 23–30 are crossed but clickable
+      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wday] = weddingDate.split('-').map(Number);
@@ -147,8 +148,8 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // TODAY is Day 23
-      const OVERRIDE_TODAY = 23;
+      // TODAY is Day 22
+      const OVERRIDE_TODAY = 22;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
       // clamp to [1..countdownDays]
@@ -250,6 +251,13 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
             </div>`
+        },
+        '22': {
+          title: "Day 22 Surprise",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY22_IMAGE}" alt="Day 22 surprise" class="w-full h-auto rounded-lg shadow" />
+            </div>`
         }
       };
 
@@ -286,7 +294,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // 30..24: always unlocked + crossed
+          // 30..23: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
