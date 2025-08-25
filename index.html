@@ -136,8 +136,8 @@
       const countdownDays = 30;
 
       // Days to always unlock + strikethrough + modal
-      // 23–30 are crossed but clickable
-      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23]);
+      // 22–30 are crossed but clickable
+      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23, 22]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wday] = weddingDate.split('-').map(Number);
@@ -148,8 +148,8 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // TODAY is Day 22
-      const OVERRIDE_TODAY = 22;
+      // TODAY is Day 21
+      const OVERRIDE_TODAY = 21;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
       // clamp to [1..countdownDays]
@@ -258,6 +258,18 @@
             <div class="space-y-4">
               <img src="${DAY22_IMAGE}" alt="Day 22 surprise" class="w-full h-auto rounded-lg shadow" />
             </div>`
+        },
+        '21': {
+          title: "Day 21 Surprise",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/kMmF2gghaSc"
+                title="YouTube Shorts"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>`
         }
       };
 
@@ -294,7 +306,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // 30..23: always unlocked + crossed
+          // 30..22: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
