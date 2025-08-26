@@ -130,14 +130,14 @@
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
       const DAY24_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');
       const DAY22_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png');
+      const DAY20_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 26, 2025, 12_18_08 PM.png');
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
-      // Days to always unlock + strikethrough + modal
-      // 22–30 are crossed but clickable
-      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23, 22]);
+      // Crossed but clickable: 21–30
+      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23, 22, 21]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wday] = weddingDate.split('-').map(Number);
@@ -148,8 +148,8 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // TODAY is Day 21
-      const OVERRIDE_TODAY = 21;
+      // TODAY is Day 20
+      const OVERRIDE_TODAY = 20;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
       // clamp to [1..countdownDays]
@@ -270,6 +270,13 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
             </div>`
+        },
+        '20': {
+          title: "Not the groom, but to the brother.",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY20_IMAGE}" alt="Day 20 - Not the groom, but to the brother." class="w-full h-auto rounded-lg shadow" />
+            </div>`
         }
       };
 
@@ -306,7 +313,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // 30..22: always unlocked + crossed
+          // 30..21: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
@@ -332,7 +339,7 @@
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
 
-          // Day 26 quiz behavior (unchanged)
+          // Day 26 quiz behavior
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
