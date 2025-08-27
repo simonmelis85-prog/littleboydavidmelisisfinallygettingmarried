@@ -124,20 +124,21 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ================== PATHS FOR FILES ==================
-      const PATH_PREFIX = ''; // e.g. 'assets/' if needed
+      // ================== PATHS FOR FILES (same folder) ==================
+      const PATH_PREFIX = '';
       const DAY27_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = PATH_PREFIX + encodeURIComponent('L46MH2ANGZ5UY.pdf');
       const DAY24_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');
-      const DAY22_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png');
-      const DAY20_IMAGE = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 26, 2025, 12_18_08 PM.png');
+      const DOG_IMAGE   = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 22, 2025, 12_05_08 PM.png'); // Day 23
+      const DAY22_APRON = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png'); // Day 21
+      const POEM_IMG    = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 26, 2025, 12_18_08 PM.png'); // Day 19
 
       // ================== CONFIG ==================
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
-      // Crossed but clickable: 21–30
-      const forceOpenDays = new Set([30, 29, 28, 27, 26, 25, 24, 23, 22, 21]);
+      // Crossed but clickable: 19–30
+      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19]);
 
       // ============== Date math (local, inclusive) ==============
       const [wy, wm, wday] = weddingDate.split('-').map(Number);
@@ -148,15 +149,15 @@
       const MS_PER_DAY = 1000 * 60 * 60 * 24;
       let daysUntil = Math.round((weddingDayAtMidnight - todayAtMidnight) / MS_PER_DAY) + 1; // inclusive
 
-      // TODAY is Day 20
-      const OVERRIDE_TODAY = 20;
+      // TODAY is Day 18
+      const OVERRIDE_TODAY = 18;
       if (OVERRIDE_TODAY) daysUntil = OVERRIDE_TODAY;
 
       // clamp to [1..countdownDays]
       if (daysUntil < 1) daysUntil = 1;
       if (daysUntil > countdownDays) daysUntil = countdownDays;
 
-      // ================== CONTENT ==================
+      // ================== CONTENT (remapped per your list) ==================
       const dailyContent = {
         '30': {
           title: "A Message from your Brother!",
@@ -241,7 +242,14 @@
             </div>`
         },
         '23': {
-          title: "Day 23 Surprise",
+          title: "Best Boy 🐶",
+          content: `
+            <div class="space-y-4">
+              <img src="${DOG_IMAGE}" alt="Dog picture" class="w-full h-auto rounded-lg shadow" />
+            </div>`
+        },
+        '22': {
+          title: "A surprise message 🎥",
           content: `
             <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
               <iframe class="absolute inset-0 w-full h-full"
@@ -252,15 +260,15 @@
                 allowfullscreen></iframe>
             </div>`
         },
-        '22': {
-          title: "Day 22 Surprise",
+        '21': {
+          title: "Chef's Kiss 👨‍🍳",
           content: `
             <div class="space-y-4">
-              <img src="${DAY22_IMAGE}" alt="Day 22 surprise" class="w-full h-auto rounded-lg shadow" />
+              <img src="${DAY22_APRON}" alt="Man with apron" class="w-full h-auto rounded-lg shadow" />
             </div>`
         },
-        '21': {
-          title: "Day 21 Surprise",
+        '20': {
+          title: "Another message 🎬",
           content: `
             <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
               <iframe class="absolute inset-0 w-full h-full"
@@ -271,11 +279,23 @@
                 allowfullscreen></iframe>
             </div>`
         },
-        '20': {
-          title: "Not the groom, but to the brother.",
+        '19': {
+          title: "Brothers 💙",
           content: `
             <div class="space-y-4">
-              <img src="${DAY20_IMAGE}" alt="Day 20 - Not the groom, but to the brother." class="w-full h-auto rounded-lg shadow" />
+              <img src="${POEM_IMG}" alt="Poem about brothers" class="w-full h-auto rounded-lg shadow" />
+            </div>`
+        },
+        '18': {
+          title: "From Mom with love",
+          content: `
+            <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+              <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/vdIREUbsYi4"
+                title="YouTube Shorts"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
             </div>`
         }
       };
@@ -313,7 +333,7 @@
         if (isLockedByCountdown) {
           door.classList.add('locked');
         } else if (isForced) {
-          // 30..21: always unlocked + crossed
+          // 30..19: always unlocked + crossed
           overlay.classList.add('strikethrough');
           door.classList.remove('locked');
         } else if (isToday) {
@@ -339,7 +359,7 @@
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
 
-          // Day 26 quiz behavior
+          // Day 26 quiz unlock -> replaces with video
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
