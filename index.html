@@ -39,8 +39,6 @@
     }
     .image-clickable { cursor: pointer; }
     .strikethrough { text-decoration: line-through; }
-
-    /* Tiny “unlock” animation (used for quiz unlock) */
     .unlock-anim { animation: pop 350ms ease-out; }
     @keyframes pop {
       0% { transform: scale(0.96); opacity: 0.5; }
@@ -133,17 +131,18 @@
       const DOG_IMAGE   = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 22, 2025, 12_05_08 PM.png'); // Day 23
       const DAY21_APRON = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png'); // Day 21
       const POEM_IMG    = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 26, 2025, 12_18_08 PM.png'); // Day 19
-      const DAY14_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_tpmetqtpmetqtpme.png');   // Day 14 (FIXED PATH)
+      const DAY14_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_tpmetqtpmetqtpme.png');   // Day 14
+      const DAY13_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_z2t4r4z2t4r4z2t4.png');   // Day 13 (new)
 
       // ================== CONFIG ==================
       const countdownDays = 30;
 
-      // TODAY is Day 14
-      const OVERRIDE_TODAY = 14;
+      // TODAY is Day 13
+      const OVERRIDE_TODAY = 13;
       let daysUntil = OVERRIDE_TODAY;
 
-      // Crossed but clickable (past days): 30..15 for today
-      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15]);
+      // Crossed but clickable (past days): 30..14 for today
+      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14]);
 
       // ================== CONTENT ==================
       const dailyContent = {
@@ -328,6 +327,13 @@
             <div class="space-y-4">
               <img src="${DAY14_IMAGE}" alt="Austrian wine time" class="w-full h-auto rounded-lg shadow" />
             </div>`
+        },
+        '13': {
+          title: "DINNER RESERVATION at 7PM",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY13_IMAGE}" alt="Dinner reservation at 7PM" class="w-full h-auto rounded-lg shadow" />
+            </div>`
         }
       };
 
@@ -373,7 +379,7 @@
           modalContent.innerHTML = content?.content || `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
           modal.classList.remove('hidden');
 
-          // Day 26 quiz unlock logic
+          // Day 26 quiz unlock logic (kept intact)
           if (i === 26) {
             const input = document.getElementById('quiz-answer');
             const btn = document.getElementById('quiz-submit');
