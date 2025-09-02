@@ -132,17 +132,18 @@
       const DAY21_APRON = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 24, 2025, 12_01_24 PM.png'); // Day 21
       const POEM_IMG    = PATH_PREFIX + encodeURIComponent('ChatGPT Image Aug 26, 2025, 12_18_08 PM.png'); // Day 19
       const DAY14_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_tpmetqtpmetqtpme.png');   // Day 14
-      const DAY13_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_z2t4r4z2t4r4z2t4.png');   // Day 13 (new)
+      const DAY13_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_z2t4r4z2t4r4z2t4.png');   // Day 13
+      const DAY12_IMAGE = PATH_PREFIX + encodeURIComponent('the life of David - the movie.png');             // Day 12
 
       // ================== CONFIG ==================
       const countdownDays = 30;
 
-      // TODAY is Day 13
-      const OVERRIDE_TODAY = 13;
+      // TODAY is Day 12
+      const OVERRIDE_TODAY = 12;
       let daysUntil = OVERRIDE_TODAY;
 
-      // Crossed but clickable (past days): 30..14 for today
-      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14]);
+      // Crossed but clickable (past days for today=12): 30..13
+      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13]);
 
       // ================== CONTENT ==================
       const dailyContent = {
@@ -333,6 +334,13 @@
           content: `
             <div class="space-y-4">
               <img src="${DAY13_IMAGE}" alt="Dinner reservation at 7PM" class="w-full h-auto rounded-lg shadow" />
+            </div>`
+        },
+        '12': {
+          title: "Life of David - The Movie",
+          content: `
+            <div class="space-y-4">
+              <img src="${DAY12_IMAGE}" alt="Life of David - The Movie" class="w-full h-auto rounded-lg shadow" />
             </div>`
         }
       };
