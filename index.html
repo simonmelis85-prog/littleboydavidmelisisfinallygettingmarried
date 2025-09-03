@@ -135,15 +135,19 @@
       const DAY13_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_z2t4r4z2t4r4z2t4.png');   // Day 13
       const DAY12_IMAGE = PATH_PREFIX + encodeURIComponent('the life of David - the movie.png');             // Day 12
 
+      // NEW for Day 11
+      const DAY11_IMAGE = PATH_PREFIX + encodeURIComponent('Gemini_Generated_Image_ta2l0ta2zl0ta2z (1).png');
+      const CERT_PDF    = PATH_PREFIX + encodeURIComponent('Zertifikat-Nachricht-und-Konstellation-A146124.pdf');
+
       // ================== CONFIG ==================
       const countdownDays = 30;
 
-      // TODAY is Day 12
-      const OVERRIDE_TODAY = 12;
+      // TODAY is Day 11
+      const OVERRIDE_TODAY = 11;
       let daysUntil = OVERRIDE_TODAY;
 
-      // Crossed but clickable (past days for today=12): 30..13
-      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13]);
+      // Crossed but clickable (past for today=11): 12..30
+      const forceOpenDays = new Set([30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12]);
 
       // ================== CONTENT ==================
       const dailyContent = {
@@ -338,9 +342,22 @@
         },
         '12': {
           title: "Life of David - The Movie",
+          /* Image is clickable and opens a video inside the same modal */
           content: `
             <div class="space-y-4">
-              <img src="${DAY12_IMAGE}" alt="Life of David - The Movie" class="w-full h-auto rounded-lg shadow" />
+              <img id="day12-image" src="${DAY12_IMAGE}" alt="Life of David - The Movie" class="w-full h-auto rounded-lg shadow cursor-pointer" />
+              <p class="text-sm text-gray-600 text-center">Klicke auf das Bild, um das Video zu starten.</p>
+            </div>`
+        },
+        '11': {
+          title: "Click on the Fish",
+          /* Clicking the picture starts a download of the certificate PDF */
+          content: `
+            <div class="space-y-4">
+              <a href="${CERT_PDF}" download title="Download Zertifikat">
+                <img src="${DAY11_IMAGE}" alt="Click the fish to download" class="w-full h-auto rounded-lg shadow cursor-pointer" />
+              </a>
+              <p class="text-sm text-gray-600 text-center">Klicke auf das Bild, um das Zertifikat herunterzuladen.</p>
             </div>`
         }
       };
@@ -415,6 +432,26 @@
               input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') tryUnlock();
               });
+            }
+          }
+
+          // Day 12: clicking the image should open the YouTube video in the same modal
+          if (i === 12) {
+            const img = document.getElementById('day12-image');
+            if (img) {
+              img.addEventListener('click', () => {
+                modalTitle.textContent = 'Day 12: Life of David - The Movie (Video)';
+                modalContent.innerHTML = `
+                  <div class="relative w-full overflow-hidden rounded-lg" style="padding-top:56.25%;">
+                    <iframe class="absolute inset-0 w-full h-full"
+                      src="https://www.youtube.com/embed/H7E1oaNbZaM"
+                      title="YouTube video"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+                  </div>
+                `;
+              }, { once: true });
             }
           }
         });
