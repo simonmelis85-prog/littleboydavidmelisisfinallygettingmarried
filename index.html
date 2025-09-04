@@ -30,8 +30,8 @@
       border-radius: 0.75rem;
       pointer-events: none; /* ensure clicks hit the .door */
     }
-    .door:hover:not(.locked) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
-    .locked { cursor: not-allowed; filter: grayscale(80%) brightness(0.8); opacity: 0.7; }
+    .door:hover:not(.future) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+    .future { filter: grayscale(80%) brightness(0.92); opacity: 0.75; } /* grey look but still clickable */
     .open .door-overlay { background-color: rgba(255,255,255,0.6); color: #4a5568; }
     .hero {
       background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('the party.png');
@@ -137,7 +137,7 @@
       const IMG_WINE    = enc('Gemini_Generated_Image_tpmetqtpmetqtpme.png');  // Day 14
       const IMG_DINNER  = enc('Gemini_Generated_Image_z2t4r4z2t4r4z2t4.png'); // Day 13
       const IMG_MOVIE   = enc('the life of David - the movie.png');            // Day 12
-      const IMG_FISH    = 'Gemini_Generated_Image_ta2zl0ta2zl0ta2z%20(1).png'; // Day 11 (encoded space/parenthesis)
+      const IMG_FISH    = 'Gemini_Generated_Image_ta2zl0ta2zl0ta2z%20(1).png'; // Day 11
       const PDF_CERT    = enc('Zertifikat-Nachricht-und-Konstellation-A146124.pdf'); // Day 11 download
       const IMG_COUPLE  = enc('Gemini_Generated_Image_38gq0038gq0038gq.png');  // Day 10
 
@@ -145,12 +145,11 @@
       const weddingDate = '2025-09-13';
       const countdownDays = 30;
 
-      // Today is Day 10
-      let daysUntil = 10;
+      // Today is Day 10 (override)
+      const daysUntil = 10;
 
       // ================== CONTENT HELPERS ==================
       const youTube = (url) => {
-        // Accepts full youtube/youtu.be/shorts — extract id if needed
         const idMatch = url.match(/(?:v=|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
         const id = idMatch ? idMatch[1] : url;
         return `
@@ -168,7 +167,6 @@
 
       // ================== CONTENT (ALL DAYS) ==================
       const dailyContent = {
-        // Fixed earliest days
         '30': { title: "A Message from your Brother!", content: youTube('https://www.youtube.com/watch?v=4rXZuggYzIw') },
         '29': { title: "Day 29 Surprise",               content: youTube('https://www.youtube.com/watch?v=SQIG69V8CDY') },
         '28': { title: "Day 28 Surprise",               content: youTube('https://www.youtube.com/shorts/usrPc7D5Q7A') },
@@ -183,11 +181,9 @@
               </a>
             </div>`
         },
-        // 26 was a quiz day, later replaced by the video (kept simple now)
         '26': { title: "Special Delivery",              content: youTube('https://youtube.com/shorts/PUYMJDxqkik') },
         '25': { title: "Message from his future mother-in-law", content: youTube('https://youtu.be/IAO4r9a7qpw') },
         '24': { title: "Picture",                       content: imgBlock(enc('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png'), 'Day 24') },
-        // Corrected mapping after the “double day 23”
         '23': { title: "Doggo says hi 🐶",              content: imgBlock(IMG_DOG, 'Dog picture') },
         '22': { title: "Video Message",                 content: youTube('https://youtu.be/JKi7Jwhj4kc') },
         '21': { title: "Master of the Grill",           content: imgBlock(IMG_APRON, 'Man with apron') },
@@ -211,7 +207,7 @@
             </div>`
         },
         '10': { title: "Couple Activity",               content: imgBlock(IMG_COUPLE, 'Couple Activity') },
-        // Placeholder for the remaining days
+        // Placeholders for remaining days
         '9': { content: '' }, '8': { content: '' }, '7': { content: '' }, '6': { content: '' },
         '5': { content: '' }, '4': { content: '' }, '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
       };
@@ -229,9 +225,6 @@
       const galleryImages = document.querySelectorAll('.image-clickable');
 
       // ================== BUILD DOORS ==================
-      // Cross every past day (>= 30 down to 11) and keep clickable
-      const forceCrossSet = new Set(Array.from({length: 30 - daysUntil}, (_, k) => 30 - k).filter(d => d > daysUntil));
-
       for (let i = countdownDays; i >= 1; i--) {
         const door = document.createElement('div');
         door.id = `day-${i}`;
@@ -244,31 +237,38 @@
         overlay.textContent = i;
         door.appendChild(overlay);
 
-        const isToday = i === daysUntil;
         if (i > daysUntil) {
-          // Future days (locked)
-          door.classList.add('locked');
-        } else if (isToday) {
-          // Open day styling
+          // PAST days (30 → 11): crossed & clickable
+          overlay.classList.add('strikethrough');
+          door.classList.add('open');
+          door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
+        } else if (i === daysUntil) {
+          // TODAY (10): open highlight
           overlay.textContent = 'Open!';
           overlay.classList.add('bg-orange-500', 'text-white');
           door.style.transform = 'scale(1.05)';
           door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
         } else {
-          // Past days => crossed & clickable
-          overlay.classList.add('strikethrough');
-          door.classList.add('open');
-          door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
+          // FUTURE days (9 → 1): grey look but clickable
+          door.classList.add('future');
         }
 
-        // CLICK handler — open modal for any unlocked day
+        // CLICK handler — open modal for ALL days
         door.addEventListener('click', () => {
-          if (door.classList.contains('locked')) return;
           const content = dailyContent[String(i)] || {};
           modalTitle.textContent = `Day ${i}` + (content.title ? `: ${content.title}` : '');
-          const html = content.content && String(content.content).trim()
-            ? content.content
-            : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
+
+          let html = '';
+          if (content.content && String(content.content).trim()) {
+            html = content.content;
+          } else if (i < daysUntil) {
+            // Future day message
+            html = `<p class="text-lg">Hey - be patient little Palawan - we are not there yet!!</p>`;
+          } else {
+            // Past day but no content uploaded yet
+            html = `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
+          }
+
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
         });
