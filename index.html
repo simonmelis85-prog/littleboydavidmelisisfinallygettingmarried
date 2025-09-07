@@ -138,8 +138,8 @@
 
       // ================== CONFIG ==================
       const countdownDays = 30;
-      // Today is Day 8
-      const daysUntil = 8;
+      // Today is Day 7
+      const daysUntil = 7;
 
       // ================== CONTENT HELPERS ==================
       const youTube = (url) => {
@@ -211,9 +211,10 @@
         '10': { title: "Couple Activity",               content: imgBlock(IMG_COUPLE, 'Couple Activity') },
         '9' : { title: "Mini Quiz",                     content: embedSite('https://papaya-cannoli-b954cd.netlify.app/') },
         '8' : { title: "The Bachelor Party",            content: youTube('https://youtu.be/wjysmpUZHD0') },
+        '7' : { title: "A Party in Sudan before the Party in Austria", content: youTube('https://youtu.be/TIvRu4yFzD8') },
         // Placeholders for remaining days
-        '7': { content: '' }, '6': { content: '' }, '5': { content: '' },
-        '4': { content: '' }, '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
+        '6': { content: '' }, '5': { content: '' }, '4': { content: '' },
+        '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
       };
 
       // ================== ELEMENTS ==================
@@ -242,18 +243,18 @@
         door.appendChild(overlay);
 
         if (i > daysUntil) {
-          // Past days (30 → 9): crossed & clickable
+          // Past days (30 → 8): crossed & clickable
           overlay.classList.add('strikethrough');
           door.classList.add('open');
           door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
         } else if (i === daysUntil) {
-          // Today (8): open highlight
+          // Today (7): open highlight
           overlay.textContent = 'Open!';
           overlay.classList.add('bg-orange-500', 'text-white');
           door.style.transform = 'scale(1.05)';
           door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
         } else {
-          // Future days (7 → 1): grey look but clickable (shows “not yet” message)
+          // Future days (6 → 1): grey look but clickable (shows “not yet” message)
           door.classList.add('future');
         }
 
