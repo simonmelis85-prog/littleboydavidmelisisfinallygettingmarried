@@ -139,8 +139,8 @@
 
       // ================== CONFIG ==================
       const countdownDays = 30;
-      // Today is Day 6
-      const daysUntil = 6;
+      // Today is Day 5
+      const daysUntil = 5;
 
       // ================== CONTENT HELPERS ==================
       const youTube = (url) => {
@@ -163,9 +163,9 @@
         <div class="space-y-3">
           <div class="relative w-full overflow-hidden rounded-lg border" style="padding-top: 140%;">
             <iframe class="absolute inset-0 w-full h-full" src="${url}"
-              title="Embedded Site" loading="lazy" frameborder="0"></iframe>
+              title="Embedded Content" loading="lazy" frameborder="0"></iframe>
           </div>
-          <p class="text-sm text-gray-500">If the site doesn’t load here, <a class="text-amber-600 underline" href="${url}" target="_blank" rel="noopener">open it in a new tab</a>.</p>
+          <p class="text-sm text-gray-500">If it doesn’t load here, <a class="text-amber-600 underline" href="${url}" target="_blank" rel="noopener">open it in a new tab</a>.</p>
         </div>`;
 
       // ================== CONTENT (ALL DAYS) ==================
@@ -214,9 +214,9 @@
         '8' : { title: "The Bachelor Party",            content: youTube('https://youtu.be/wjysmpUZHD0') },
         '7' : { title: "A Party in Sudan before the Party in Austria", content: youTube('https://youtu.be/TIvRu4yFzD8') },
         '6' : { title: "Today’s Photo",                 content: imgBlock(IMG_DAY6, 'Day 6 photo') },
+        '5' : { title: "MC H-Agedorn - Before Dienten", content: embedSite('https://photos.app.goo.gl/WcXWfNkH8wBtkMA78') },
         // Placeholders for remaining days
-        '5': { content: '' }, '4': { content: '' }, '3': { content: '' },
-        '2': { content: '' }, '1': { content: '' },
+        '4': { content: '' }, '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
       };
 
       // ================== ELEMENTS ==================
@@ -245,18 +245,18 @@
         door.appendChild(overlay);
 
         if (i > daysUntil) {
-          // Past/unlocked (30 → 7): crossed & clickable
+          // Past/unlocked (30 → 6): crossed & clickable
           overlay.classList.add('strikethrough');
           door.classList.add('open');
           door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
         } else if (i === daysUntil) {
-          // Today (6): open highlight
+          // Today (5): open highlight
           overlay.textContent = 'Open!';
           overlay.classList.add('bg-orange-500', 'text-white');
           door.style.transform = 'scale(1.05)';
           door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
         } else {
-          // Future days (5 → 1): grey look but clickable (will show placeholder)
+          // Future days (4 → 1): grey look but clickable (placeholder)
           door.classList.add('future');
         }
 
