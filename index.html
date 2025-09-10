@@ -139,8 +139,8 @@
 
       // ================== CONFIG ==================
       const countdownDays = 30;
-      // Today is Day 5
-      const daysUntil = 5;
+      // Today is Day 4
+      const daysUntil = 4;
 
       // ================== CONTENT HELPERS ==================
       const youTube = (url) => {
@@ -215,7 +215,8 @@
         '7' : { title: "A Party in Sudan before the Party in Austria", content: youTube('https://youtu.be/TIvRu4yFzD8') },
         '6' : { title: "Today’s Photo",                 content: imgBlock(IMG_DAY6, 'Day 6 photo') },
         '5' : { title: "MC H-Agedorn - Before Dienten", content: youTube('https://youtube.com/shorts/UBtN6vb9FpM?feature=share') },
-        '4': { content: '' }, '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
+        '4' : { title: "As per request!",               content: youTube('https://youtu.be/8jw4cVJokt8') },
+        '3': { content: '' }, '2': { content: '' }, '1': { content: '' },
       };
 
       // ================== ELEMENTS ==================
@@ -244,15 +245,18 @@
         door.appendChild(overlay);
 
         if (i > daysUntil) {
+          // Past/unlocked: crossed & clickable (includes Day 5)
           overlay.classList.add('strikethrough');
           door.classList.add('open');
           door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
         } else if (i === daysUntil) {
+          // Today (Day 4): open highlight
           overlay.textContent = 'Open!';
           overlay.classList.add('bg-orange-500', 'text-white');
           door.style.transform = 'scale(1.05)';
           door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
         } else {
+          // Future days (3 → 1): grey look but clickable (placeholder msg)
           door.classList.add('future');
         }
 
