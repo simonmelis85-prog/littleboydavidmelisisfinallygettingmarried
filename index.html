@@ -29,6 +29,8 @@
       font-size: 2rem; font-weight: bold; color: #333;
       border-radius: 0.75rem;
       pointer-events: none;
+      text-align: center;
+      padding: 0.25rem 0.5rem;
     }
     .door:hover:not(.future) { transform: scale(1.05) rotate(-2deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
     .future { filter: grayscale(80%) brightness(0.92); opacity: 0.75; }
@@ -122,7 +124,7 @@
       // ================== FILE HELPERS ==================
       const enc = (name) => encodeURIComponent(name).replace(/%20/g, ' ').replace(/ /g, '%20');
 
-      // Files next to index.html
+      // Files next to index.html (kept from previous setup)
       const DAY27_IMAGE = enc('ChatGPT Image Aug 18, 2025, 11_54_08 AM.png');
       const DAY27_PDF   = enc('L46MH2ANGZ5UY.pdf');
 
@@ -136,11 +138,12 @@
       const PDF_CERT    = enc('Zertifikat-Nachricht-und-Konstellation-A146124.pdf'); // Day 11 download
       const IMG_COUPLE  = enc('Gemini_Generated_Image_38gq0038gq0038gq.png');  // Day 10
       const IMG_DAY6    = enc('WhatsApp Image 2025-09-08 at 16.13.51_cb91505c.jpg'); // Day 6
+      const IMG_DAY24   = enc('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png');  // Day 24
 
       // ================== CONFIG ==================
       const countdownDays = 30;
-      // Today is Day 3
-      const daysUntil = 3;
+      // Wedding Day: treat as Day 1 (so everything 30→3 is crossed)
+      const daysUntil = 1;
 
       // ================== CONTENT HELPERS ==================
       const youTube = (url) => {
@@ -168,7 +171,7 @@
           <p class="text-sm text-gray-500">If it doesn’t load here, <a class="text-amber-600 underline" href="${url}" target="_blank" rel="noopener">open it in a new tab</a>.</p>
         </div>`;
 
-      // ================== CONTENT (ALL DAYS) ==================
+      // ================== CONTENT (ALL DAYS PRESERVED) ==================
       const dailyContent = {
         '30': { title: "A Message from your Brother!", content: youTube('https://www.youtube.com/watch?v=4rXZuggYzIw') },
         '29': { title: "Day 29 Surprise",               content: youTube('https://www.youtube.com/watch?v=SQIG69V8CDY') },
@@ -186,7 +189,7 @@
         },
         '26': { title: "Special Delivery",              content: youTube('https://youtube.com/shorts/PUYMJDxqkik') },
         '25': { title: "Message from his future mother-in-law", content: youTube('https://youtu.be/IAO4r9a7qpw') },
-        '24': { title: "Picture",                       content: imgBlock(enc('ChatGPT Image Aug 21, 2025, 11_32_46 AM.png'), 'Day 24') },
+        '24': { title: "Picture",                       content: imgBlock(IMG_DAY24, 'Day 24') },
         '23': { title: "Doggo says hi 🐶",              content: imgBlock(IMG_DOG, 'Dog picture') },
         '22': { title: "Video Message",                 content: youTube('https://youtu.be/JKi7Jwhj4kc') },
         '21': { title: "Master of the Grill",           content: imgBlock(IMG_APRON, 'Man with apron') },
@@ -216,8 +219,8 @@
         '6' : { title: "Today’s Photo",                 content: imgBlock(IMG_DAY6, 'Day 6 photo') },
         '5' : { title: "MC H-Agedorn - Before Dienten", content: youTube('https://youtube.com/shorts/UBtN6vb9FpM?feature=share') },
         '4' : { title: "As per request!",               content: youTube('https://youtu.be/8jw4cVJokt8') },
-        '3' : { title: "Advise from people who know better.", content: youTube('https://youtu.be/6tpEPc-bdoE?si=hrNy2PdF1oqEu3sM') },
-        '2': { content: '' }, '1': { content: '' },
+        '3' : { title: "Advise from people who know better.", content: youTube('https://youtu.be/6tpEPc-bdoE?si=hrNy2PdF1oqEu3sM') }
+        // Day 2 & Day 1 are merged below into "WEDDING DAY"
       };
 
       // ================== ELEMENTS ==================
@@ -233,7 +236,8 @@
       const galleryImages = document.querySelectorAll('.image-clickable');
 
       // ================== BUILD DOORS ==================
-      for (let i = countdownDays; i >= 1; i--) {
+      // Build doors for 30 → 3 (all crossed & clickable since daysUntil = 1)
+      for (let i = countdownDays; i >= 3; i--) {
         const door = document.createElement('div');
         door.id = `day-${i}`;
         door.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative`;
@@ -245,35 +249,17 @@
         overlay.textContent = i;
         door.appendChild(overlay);
 
-        if (i > daysUntil) {
-          // Past/unlocked (30 → 4): crossed & clickable (Day 4 included)
-          overlay.classList.add('strikethrough');
-          door.classList.add('open');
-          door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
-        } else if (i === daysUntil) {
-          // Today (Day 3): open highlight
-          overlay.textContent = 'Open!';
-          overlay.classList.add('bg-orange-500', 'text-white');
-          door.style.transform = 'scale(1.05)';
-          door.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
-        } else {
-          // Future days (2 → 1): grey look but clickable (placeholder msg)
-          door.classList.add('future');
-        }
+        // Since i > daysUntil (1), all of these are crossed & clickable
+        overlay.classList.add('strikethrough');
+        door.classList.add('open');
+        door.style.backgroundImage = `url('https://placehold.co/400x400/E2E8F0/A0AEC0?text=Day+${i}')`;
 
         door.addEventListener('click', () => {
           const content = dailyContent[String(i)] || {};
           modalTitle.textContent = `Day ${i}` + (content.title ? `: ${content.title}` : '');
-
-          let html = '';
-          if (content.content && String(content.content).trim()) {
-            html = content.content;
-          } else if (i < daysUntil) {
-            html = `<p class="text-lg">Hey - be patient little Palawan - we are not there yet!!</p>`;
-          } else {
-            html = `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
-          }
-
+          const html = content.content && String(content.content).trim()
+            ? content.content
+            : `<p class="text-lg">This day is unlocked, but the surprise isn’t uploaded yet. Check back soon 🎁</p>`;
           modalContent.innerHTML = html;
           modal.classList.remove('hidden');
         });
@@ -287,6 +273,37 @@
 
         grid.appendChild(door);
       }
+
+      // Add the merged WEDDING DAY tile (replaces Day 2 + Day 1)
+      const weddingDoor = document.createElement('div');
+      weddingDoor.id = 'wedding-day';
+      weddingDoor.className = `door p-6 md:p-8 rounded-xl shadow-md flex items-center justify-center font-bold text-2xl md:text-3xl transition-all duration-300 transform hover:scale-105 bg-white relative col-span-2`;
+      weddingDoor.setAttribute('role', 'button');
+      weddingDoor.setAttribute('tabindex', '0');
+
+      const weddingOverlay = document.createElement('div');
+      weddingOverlay.className = 'door-overlay bg-orange-500 text-white';
+      weddingOverlay.textContent = 'WEDDING DAY';
+      weddingDoor.appendChild(weddingOverlay);
+
+      // Give it a bit of "open" flair
+      weddingDoor.style.transform = 'scale(1.05)';
+      weddingDoor.style.boxShadow = '0 15px 25px rgba(255, 127, 80, 0.4)';
+
+      weddingDoor.addEventListener('click', () => {
+        modalTitle.textContent = `Let’s party!!!`;
+        modalContent.innerHTML = youTube('https://youtube.com/shorts/qPwHDP99PcI');
+        modal.classList.remove('hidden');
+      });
+
+      weddingDoor.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          weddingDoor.click();
+        }
+      });
+
+      grid.appendChild(weddingDoor);
 
       // ================== Modal controls ==================
       const stopVideo = () => {
